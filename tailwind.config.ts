@@ -52,6 +52,18 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				hero: {
+					DEFAULT: 'hsl(var(--hero))',
+					foreground: 'hsl(var(--hero-foreground))'
+				},
+				college: {
+					navy: 'hsl(var(--college-navy))',
+					gold: 'hsl(var(--college-gold))',
+					crimson: 'hsl(var(--college-crimson))',
+					forest: 'hsl(var(--college-forest))',
+					cream: 'hsl(var(--college-cream))',
+					gray: 'hsl(var(--college-gray))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,6 +74,21 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			fontFamily: {
+				display: ['var(--font-display)', 'serif'],
+				body: ['var(--font-body)', 'sans-serif']
+			},
+			backgroundImage: {
+				'gradient-hero': 'var(--gradient-hero)',
+				'gradient-gold': 'var(--gradient-gold)',
+				'gradient-academic': 'var(--gradient-academic)',
+				'gradient-overlay': 'var(--gradient-overlay)'
+			},
+			boxShadow: {
+				'elegant': 'var(--shadow-elegant)',
+				'glow': 'var(--shadow-glow)',
+				'card': 'var(--shadow-card)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
