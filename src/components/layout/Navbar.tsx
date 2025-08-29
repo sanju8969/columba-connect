@@ -100,9 +100,9 @@ const Navbar = () => {
             {/* Action Buttons */}
             <div className="hidden lg:flex items-center gap-4">
               <Button variant="outline" size="sm" asChild>
-                <Link to="/student-portal">
+                <Link to="/auth">
                   <GraduationCap size={16} />
-                  Student Portal
+                  Login
                 </Link>
               </Button>
               <Button variant="hero" size="sm" asChild>
@@ -143,9 +143,9 @@ const Navbar = () => {
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t">
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/student-portal">
+                    <Link to="/auth">
                       <GraduationCap size={16} />
-                      Student Portal
+                      Login
                     </Link>
                   </Button>
                   <Button variant="hero" size="sm" asChild>
