@@ -175,19 +175,34 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => alert('My Courses functionality coming soon!')}
+            >
               <BookOpen className="h-6 w-6" />
               <span>My Courses</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Student List functionality coming soon!')}
+            >
               <GraduationCap className="h-6 w-6" />
               <span>Student List</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Grade Students functionality coming soon!')}
+            >
               <ClipboardList className="h-6 w-6" />
               <span>Grade Students</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Create Notice functionality coming soon!')}
+            >
               <FileText className="h-6 w-6" />
               <span>Create Notice</span>
             </Button>

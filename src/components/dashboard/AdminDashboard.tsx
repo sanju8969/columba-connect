@@ -127,19 +127,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => alert('Manage Users functionality coming soon!')}
+            >
               <Users className="h-6 w-6" />
               <span>Manage Users</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Manage Departments functionality coming soon!')}
+            >
               <Building className="h-6 w-6" />
               <span>Manage Departments</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Manage Courses functionality coming soon!')}
+            >
               <BookOpen className="h-6 w-6" />
               <span>Manage Courses</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Publish Notice functionality coming soon!')}
+            >
               <FileText className="h-6 w-6" />
               <span>Publish Notice</span>
             </Button>

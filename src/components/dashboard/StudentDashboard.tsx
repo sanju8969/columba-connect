@@ -169,19 +169,34 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2"
+              onClick={() => alert('My Courses functionality coming soon!')}
+            >
               <BookOpen className="h-6 w-6" />
               <span>My Courses</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('View Grades functionality coming soon!')}
+            >
               <TrendingUp className="h-6 w-6" />
               <span>View Grades</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Assignments functionality coming soon!')}
+            >
               <FileText className="h-6 w-6" />
               <span>Assignments</span>
             </Button>
-            <Button className="h-auto p-4 flex flex-col items-center space-y-2" variant="outline">
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={() => alert('Update Profile functionality coming soon!')}
+            >
               <User className="h-6 w-6" />
               <span>Update Profile</span>
             </Button>
