@@ -64,9 +64,15 @@
     --font-display: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
     
-    /* Animations */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* Animations */
+  --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-elastic: all 0.8s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  
+  /* 3D Transforms */
+  --perspective: 1200px;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
 
     --sidebar-background: 0 0% 98%;
 
@@ -190,18 +196,46 @@
     animation: float 3s ease-in-out infinite;
   }
   
+  .morph-in {
+    animation: morphIn 1s ease-out forwards;
+  }
+  
+  .rotate-3d {
+    animation: rotate3D 4s ease-in-out infinite;
+  }
+  
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+  
   /* Hover effects for interactive elements */
   .hover-lift {
     @apply smooth-transition;
   }
   
   .hover-lift:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) scale(1.02);
     box-shadow: var(--shadow-elegant);
   }
   
   .hover-glow:hover {
     box-shadow: var(--shadow-glow);
+    transform: scale(1.05);
+  }
+  
+  .hover-3d {
+    perspective: var(--perspective);
+    transform-style: preserve-3d;
+  }
+  
+  .hover-3d:hover {
+    transform: rotateX(10deg) rotateY(-10deg) scale(1.05);
+  }
+  
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   /* Academic section styling */
@@ -271,5 +305,51 @@
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes morphIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(180deg);
+    filter: blur(10px);
+  }
+  50% {
+    transform: scale(1.1) rotate(90deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+@keyframes rotate3D {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: rotateX(15deg) rotateY(15deg);
+  }
+  50% {
+    transform: rotateX(0deg) rotateY(30deg);
+  }
+  75% {
+    transform: rotateX(-15deg) rotateY(15deg);
+  }
+  100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--college-gold) / 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--college-gold) / 0.6);
+    transform: scale(1.05);
   }
 }

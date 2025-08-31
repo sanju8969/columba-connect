@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Users, Award, BookOpen, Globe, ArrowRight, Calendar, MapPin, Star } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import GlowingCard from '@/components/enhanced/GlowingCards';
+import AnimatedCounter from '@/components/enhanced/AnimatedCounter';
+import MorphingText from '@/components/enhanced/MorphingText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,26 +26,75 @@ const AboutSection = () => {
       }
     });
 
+    // Enhanced animations with morphing and 3D effects
     tl.fromTo(
       contentRef.current,
-      { opacity: 0, x: -100 },
-      { opacity: 1, x: 0, duration: 1, ease: 'power3.out' }
+      { 
+        opacity: 0, 
+        x: -100,
+        rotationY: -15,
+        transformOrigin: "right center"
+      },
+      { 
+        opacity: 1, 
+        x: 0,
+        rotationY: 0,
+        duration: 1.2, 
+        ease: 'power3.out' 
+      }
     )
     .fromTo(
       imageRef.current,
-      { opacity: 0, x: 100, scale: 0.8 },
-      { opacity: 1, x: 0, scale: 1, duration: 1, ease: 'power3.out' },
-      '-=0.5'
+      { 
+        opacity: 0, 
+        x: 100, 
+        scale: 0.7,
+        rotationY: 15,
+        transformOrigin: "left center"
+      },
+      { 
+        opacity: 1, 
+        x: 0, 
+        scale: 1,
+        rotationY: 0,
+        duration: 1.2, 
+        ease: 'power3.out' 
+      },
+      '-=0.8'
     )
     .fromTo(
       achievementsRef.current?.children,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'back.out(1.7)' },
-      '-=0.3'
+      { 
+        opacity: 0, 
+        y: 80,
+        scale: 0.8,
+        rotationX: 45
+      },
+      { 
+        opacity: 1, 
+        y: 0,
+        scale: 1,
+        rotationX: 0,
+        duration: 1, 
+        stagger: 0.15, 
+        ease: 'back.out(1.7)' 
+      },
+      '-=0.6'
     );
+
+    // Continuous subtle animations
+    gsap.to(achievementsRef.current?.children, {
+      y: "random(-5, 5)",
+      duration: "random(3, 5)",
+      ease: "sine.inOut",
+      stagger: 0.5,
+      repeat: -1,
+      yoyo: true
+    });
 
     return () => {
       tl.kill();
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
@@ -88,7 +140,11 @@ const AboutSection = () => {
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-primary leading-tight">
                 A Legacy of 
-                <span className="text-gradient-gold"> Excellence</span>
+                <MorphingText 
+                  texts={['Excellence', 'Innovation', 'Tradition', 'Service']}
+                  className="text-gradient-gold"
+                  duration={3}
+                />
               </h2>
             </div>
 
@@ -150,14 +206,18 @@ const AboutSection = () => {
 
             {/* Key Stats */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-background rounded-xl p-6 card-shadow text-center hover-lift">
-                <div className="text-3xl font-bold text-primary">3000+</div>
+              <GlowingCard glowColor="#FFD700" className="text-center p-6">
+                <div className="text-3xl font-bold text-primary">
+                  <AnimatedCounter target={3000} suffix="+" />
+                </div>
                 <div className="text-sm text-muted-foreground font-medium">Active Students</div>
-              </div>
-              <div className="bg-background rounded-xl p-6 card-shadow text-center hover-lift">
-                <div className="text-3xl font-bold text-secondary">150+</div>
+              </GlowingCard>
+              <GlowingCard glowColor="#42A5F5" className="text-center p-6">
+                <div className="text-3xl font-bold text-secondary">
+                  <AnimatedCounter target={150} suffix="+" />
+                </div>
                 <div className="text-sm text-muted-foreground font-medium">Expert Faculty</div>
-              </div>
+              </GlowingCard>
             </div>
           </div>
         </div>
@@ -165,20 +225,26 @@ const AboutSection = () => {
         {/* Achievements Grid */}
         <div ref={achievementsRef} className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-20">
           {achievements.map((achievement, index) => (
-            <div 
-              key={index} 
-              className="bg-background rounded-xl p-6 card-shadow hover-lift group smooth-transition"
+            <GlowingCard 
+              key={index}
+              index={index}
+              glowColor={
+                index === 0 ? '#0F172A' : 
+                index === 1 ? '#FFD700' : 
+                index === 2 ? '#22C55E' : '#DC2626'
+              }
+              className="p-6 group"
             >
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${achievement.gradient} flex items-center justify-center mb-4 group-hover:scale-110 smooth-transition`}>
+              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${achievement.gradient} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-12 smooth-transition`}>
                 <achievement.icon size={24} className="text-white" />
               </div>
-              <h4 className="text-xl font-display font-bold text-primary mb-2">
+              <h4 className="text-xl font-display font-bold text-primary mb-2 group-hover:text-secondary smooth-transition">
                 {achievement.title}
               </h4>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed group-hover:text-foreground smooth-transition">
                 {achievement.description}
               </p>
-            </div>
+            </GlowingCard>
           ))}
         </div>
       </div>
