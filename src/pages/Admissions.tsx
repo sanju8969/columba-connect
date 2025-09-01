@@ -217,11 +217,11 @@ const Admissions = () => {
               St. Columba's College, Hazaribagh.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.location.href = '/auth'}>
                 <FileText className="mr-2 h-5 w-5" />
                 Apply Online
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('/prospectus.pdf', '_blank')}>
                 <Download className="mr-2 h-5 w-5" />
                 Download Prospectus
               </Button>
@@ -353,7 +353,7 @@ const Admissions = () => {
                           </div>
                         </div>
                         
-                        <Button className="w-full group-hover:bg-primary-dark">
+                        <Button className="w-full group-hover:bg-primary-dark" onClick={() => window.location.href = '/auth'}>
                           Apply Now
                         </Button>
                       </CardContent>
@@ -417,11 +417,11 @@ const Admissions = () => {
             Apply today and take the first step towards your bright future.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.location.href = '/auth'}>
               <GraduationCap className="mr-2 h-5 w-5" />
               Start Application
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('/syllabus.pdf', '_blank')}>
               <BookOpen className="mr-2 h-5 w-5" />
               View Syllabus
             </Button>

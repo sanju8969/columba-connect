@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
+import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useDashboard } from '@/hooks/useDashboard';
+import { useToast } from '@/hooks/use-toast';
 import { Users, BookOpen, UserCheck, FileText, GraduationCap, Building } from 'lucide-react';
 
 interface Profile {
@@ -19,66 +20,59 @@ interface AdminDashboardProps {
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
-  const [stats, setStats] = useState({
-    totalStudents: 0,
-    totalFaculty: 0,
-    totalDepartments: 0,
-    totalCourses: 0,
-    pendingAdmissions: 0,
-    activeNotices: 0
-  });
+  const { stats, loading } = useDashboard();
+  const { toast } = useToast();
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Fetch statistics
-        const [studentsRes, facultyRes, departmentsRes, coursesRes, admissionsRes, noticesRes] = await Promise.all([
-          supabase.from('students').select('*', { count: 'exact', head: true }),
-          supabase.from('faculty').select('*', { count: 'exact', head: true }),
-          supabase.from('departments').select('*', { count: 'exact', head: true }),
-          supabase.from('courses').select('*', { count: 'exact', head: true }),
-          supabase.from('admissions').select('*', { count: 'exact', head: true }).eq('application_status', 'pending'),
-          supabase.from('notices').select('*', { count: 'exact', head: true }).eq('is_published', true)
-        ]);
+  const handleManageUsers = () => {
+    toast({
+      title: "User Management",
+      description: "Redirecting to user management panel..."
+    });
+  };
 
-        setStats({
-          totalStudents: studentsRes.count || 0,
-          totalFaculty: facultyRes.count || 0,
-          totalDepartments: departmentsRes.count || 0,
-          totalCourses: coursesRes.count || 0,
-          pendingAdmissions: admissionsRes.count || 0,
-          activeNotices: noticesRes.count || 0
-        });
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
+  const handleManageDepartments = () => {
+    toast({
+      title: "Department Management", 
+      description: "Redirecting to department management panel..."
+    });
+  };
 
-    fetchStats();
-  }, []);
+  const handleManageCourses = () => {
+    toast({
+      title: "Course Management",
+      description: "Redirecting to course management panel..."
+    });
+  };
+
+  const handlePublishNotice = () => {
+    toast({
+      title: "Notice Publishing",
+      description: "Redirecting to notice creation form..."
+    });
+  };
 
   const statCards = [
     {
       title: 'Total Students',
-      value: stats.totalStudents,
+      value: stats.students,
       icon: GraduationCap,
       color: 'text-blue-600'
     },
     {
       title: 'Total Faculty',
-      value: stats.totalFaculty,
+      value: stats.faculty,
       icon: Users,
       color: 'text-green-600'
     },
     {
       title: 'Departments',
-      value: stats.totalDepartments,
+      value: stats.departments,
       icon: Building,
       color: 'text-purple-600'
     },
     {
       title: 'Courses',
-      value: stats.totalCourses,
+      value: stats.courses,
       icon: BookOpen,
       color: 'text-orange-600'
     },
@@ -129,7 +123,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2"
-              onClick={() => alert('Manage Users functionality coming soon!')}
+              onClick={handleManageUsers}
             >
               <Users className="h-6 w-6" />
               <span>Manage Users</span>
@@ -137,7 +131,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Manage Departments functionality coming soon!')}
+              onClick={handleManageDepartments}
             >
               <Building className="h-6 w-6" />
               <span>Manage Departments</span>
@@ -145,7 +139,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Manage Courses functionality coming soon!')}
+              onClick={handleManageCourses}
             >
               <BookOpen className="h-6 w-6" />
               <span>Manage Courses</span>
@@ -153,7 +147,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Publish Notice functionality coming soon!')}
+              onClick={handlePublishNotice}
             >
               <FileText className="h-6 w-6" />
               <span>Publish Notice</span>

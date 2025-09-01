@@ -372,12 +372,12 @@ const Notices = () => {
                         </div>
                         <div className="flex gap-2 ml-4">
                           {notice.link !== "#" && (
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" onClick={() => window.open(notice.link, '_blank')}>
                               <Download className="h-4 w-4 mr-1" />
                               Download
                             </Button>
                           )}
-                          <Button variant="ghost" size="sm" className="text-primary">
+                          <Button variant="ghost" size="sm" className="text-primary" onClick={() => window.location.href = `/notices/${notice.id}`}>
                             <ChevronRight className="h-4 w-4" />
                           </Button>
                         </div>

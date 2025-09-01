@@ -215,10 +215,8 @@ const NoticesSection = () => {
                               <span>{notice.time}</span>
                             </div>
                           </div>
-                          <Button variant="ghost" size="sm" asChild>
-                            <Link to={notice.link}>
-                              <ExternalLink size={14} />
-                            </Link>
+                          <Button variant="ghost" size="sm" onClick={() => window.open(notice.link, '_blank')}>
+                            <ExternalLink size={14} />
                           </Button>
                         </div>
                       </div>
@@ -285,15 +283,17 @@ const NoticesSection = () => {
                     </div>
 
                     <div className="flex items-center justify-between pt-3 border-t">
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost" size="sm" onClick={() => {
+                        // Create calendar event URL
+                        const calendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.title)}&dates=${event.date.replace(/-/g, '')}T${event.time.replace(/:/g, '')}00/${event.date.replace(/-/g, '')}T${event.time.replace(/:/g, '')}00&details=${encodeURIComponent(event.description)}&location=${encodeURIComponent(event.venue)}`;
+                        window.open(calendarUrl, '_blank');
+                      }}>
                         <Download size={14} />
                         Add to Calendar
                       </Button>
-                      <Button variant="ghost" size="sm" asChild>
-                        <Link to={event.link}>
-                          Learn More
-                          <ArrowRight size={14} />
-                        </Link>
+                      <Button variant="ghost" size="sm" onClick={() => window.location.href = event.link}>
+                        Learn More
+                        <ArrowRight size={14} />
                       </Button>
                     </div>
                   </div>

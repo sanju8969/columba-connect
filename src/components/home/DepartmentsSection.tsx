@@ -169,11 +169,9 @@ const DepartmentsSection = () => {
                     <Users size={16} />
                     <span>{dept.faculty} Faculty Members</span>
                   </div>
-                  <Button variant="ghost" size="sm" asChild className="group/btn">
-                    <Link to={dept.link}>
-                      Learn More
-                      <ArrowRight size={16} className="group-hover/btn:translate-x-1 smooth-transition" />
-                    </Link>
+                  <Button variant="ghost" size="sm" className="group/btn" onClick={() => window.location.href = '/departments'}>
+                    Learn More
+                    <ArrowRight size={16} className="group-hover/btn:translate-x-1 smooth-transition" />
                   </Button>
                 </div>
               </div>
@@ -192,13 +190,11 @@ const DepartmentsSection = () => {
               to shape your future. Join thousands of successful alumni who started their journey here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="secondary" size="lg" asChild>
-                <Link to="/admissions">
-                  <GraduationCap size={20} />
-                  Apply for Admission
-                </Link>
+              <Button variant="secondary" size="lg" onClick={() => window.location.href = '/admission-form'}>
+                <GraduationCap size={20} />
+                Apply for Admission
               </Button>
-              <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary">
+              <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary" onClick={() => window.open('/prospectus.pdf', '_blank')}>
                 <BookOpen size={20} />
                 Download Prospectus
               </Button>
