@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useDashboard } from '@/hooks/useDashboard';
 import { useToast } from '@/hooks/use-toast';
-import { Users, BookOpen, UserCheck, FileText, GraduationCap, Building } from 'lucide-react';
+import { Users, BookOpen, UserCheck, FileText, GraduationCap, Building, ArrowLeft } from 'lucide-react';
+import UserManagement from '@/components/admin/UserManagement';
+import DepartmentManagement from '@/components/admin/DepartmentManagement';
+import CourseManagement from '@/components/admin/CourseManagement';
+import NoticeManagement from '@/components/admin/NoticeManagement';
 
 interface Profile {
   id: string;
@@ -22,33 +26,26 @@ interface AdminDashboardProps {
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
   const { stats, loading } = useDashboard();
   const { toast } = useToast();
+  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'departments' | 'courses' | 'notices'>('dashboard');
 
   const handleManageUsers = () => {
-    toast({
-      title: "User Management",
-      description: "Redirecting to user management panel..."
-    });
+    setCurrentView('users');
   };
 
   const handleManageDepartments = () => {
-    toast({
-      title: "Department Management", 
-      description: "Redirecting to department management panel..."
-    });
+    setCurrentView('departments');
   };
 
   const handleManageCourses = () => {
-    toast({
-      title: "Course Management",
-      description: "Redirecting to course management panel..."
-    });
+    setCurrentView('courses');
   };
 
   const handlePublishNotice = () => {
-    toast({
-      title: "Notice Publishing",
-      description: "Redirecting to notice creation form..."
-    });
+    setCurrentView('notices');
+  };
+
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard');
   };
 
   const statCards = [
@@ -89,6 +86,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
       color: 'text-indigo-600'
     }
   ];
+
+  // Render management views
+  if (currentView !== 'dashboard') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <Button variant="outline" onClick={handleBackToDashboard}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Dashboard
+          </Button>
+          <Badge variant="secondary">Administrator</Badge>
+        </div>
+        
+        {currentView === 'users' && <UserManagement />}
+        {currentView === 'departments' && <DepartmentManagement />}
+        {currentView === 'courses' && <CourseManagement />}
+        {currentView === 'notices' && <NoticeManagement />}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
