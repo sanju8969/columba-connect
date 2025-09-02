@@ -268,7 +268,7 @@ const HeroSection = () => {
             <Button variant="gold" size="xl" asChild className="group">
               <Link to="/admissions">
                 <BookOpen size={24} />
-                Apply for Admission 2024
+                Admission Information
                 <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
               </Link>
             </Button>

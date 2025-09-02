@@ -106,7 +106,7 @@ const Navbar = () => {
                 </Link>
               </Button>
               <Button variant="hero" size="sm" asChild>
-                <Link to="/admissions">Apply Now</Link>
+                <Link to="/admissions">Admissions</Link>
               </Button>
             </div>
 
@@ -149,7 +149,7 @@ const Navbar = () => {
                     </Link>
                   </Button>
                   <Button variant="hero" size="sm" asChild>
-                    <Link to="/admissions">Apply Now</Link>
+                    <Link to="/admissions">Admissions</Link>
                   </Button>
                 </div>
               </div>

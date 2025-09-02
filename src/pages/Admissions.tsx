@@ -74,129 +74,78 @@ const Admissions = () => {
   const admissionProcess = [
     {
       step: 1,
-      title: "Online Application",
-      description: "Fill out the online application form with required documents",
+      title: "Apply through Chancellor Portal",
+      description: "Submit application through the centralized Jharkhand Universities portal",
       icon: FileText,
-      timeline: "March - May"
+      timeline: "As per university schedule"
     },
     {
       step: 2,
-      title: "Document Verification",
-      description: "Submit and verify all academic documents and certificates",
-      icon: CheckCircle,
-      timeline: "Within 7 days"
+      title: "Merit List Publication",
+      description: "Check the merit list published online for selected candidates",
+      icon: Award,
+      timeline: "After application deadline"
     },
     {
       step: 3,
-      title: "Entrance Exam/Merit",
-      description: "Appear for entrance exam or merit-based selection",
-      icon: Award,
-      timeline: "June"
+      title: "Document Verification",
+      description: "Visit college with original certificates for verification",
+      icon: CheckCircle,
+      timeline: "As per schedule"
     },
     {
       step: 4,
-      title: "Counseling",
-      description: "Attend counseling session for course and seat allocation",
-      icon: Users,
-      timeline: "July"
-    },
-    {
-      step: 5,
-      title: "Fee Payment",
-      description: "Pay admission fees and complete enrollment process",
+      title: "Fee Payment & Admission",
+      description: "Complete fee payment at the college to confirm admission",
       icon: DollarSign,
-      timeline: "Within 15 days"
+      timeline: "After verification"
     }
   ];
 
   const programs = {
     undergraduate: [
       {
-        name: "B.Sc. (Physics, Chemistry, Mathematics)",
+        name: "B.A. (Honours/General)",
         duration: "3 Years",
-        eligibility: "12th with Science (60%)",
-        seats: 60,
-        fee: "₹15,000/year",
-        highlights: ["Research Projects", "Industry Exposure", "Lab Facilities"]
+        eligibility: "Class 12 with at least 50% marks",
+        seats: "Limited seats",
+        reservation: "SC-15%, ST-7.5%, OBC-27%",
+        highlights: ["Multiple specializations", "UGC Recognized", "NAAC Accredited"]
       },
       {
-        name: "B.Sc. (Computer Science)",
+        name: "B.Sc. (Honours/General)",
         duration: "3 Years", 
-        eligibility: "12th with Math (55%)",
-        seats: 40,
-        fee: "₹25,000/year",
-        highlights: ["Modern Labs", "Industry Partnerships", "Placement Support"]
-      },
-      {
-        name: "B.A. (English, History, Political Science)",
-        duration: "3 Years",
-        eligibility: "12th (50%)",
-        seats: 100,
-        fee: "₹12,000/year",
-        highlights: ["Language Labs", "Research Opportunities", "Cultural Programs"]
-      },
-      {
-        name: "B.Com",
-        duration: "3 Years",
-        eligibility: "12th (50%)",
-        seats: 80,
-        fee: "₹18,000/year",
-        highlights: ["Industry Training", "Internships", "Skill Development"]
-      }
-    ],
-    postgraduate: [
-      {
-        name: "M.Sc. (Physics)",
-        duration: "2 Years",
-        eligibility: "B.Sc. Physics (55%)",
-        seats: 30,
-        fee: "₹20,000/year",
-        highlights: ["Research Focus", "PhD Preparation", "Advanced Labs"]
-      },
-      {
-        name: "M.A. (English)",
-        duration: "2 Years",
-        eligibility: "B.A. English (50%)",
-        seats: 25,
-        fee: "₹15,000/year",
-        highlights: ["Literary Research", "Publications", "Seminars"]
-      },
-      {
-        name: "M.Com",
-        duration: "2 Years",
-        eligibility: "B.Com (50%)",
-        seats: 40,
-        fee: "₹22,000/year",
-        highlights: ["Advanced Accounting", "Business Analytics", "Case Studies"]
-      }
-    ],
-    professional: [
-      {
-        name: "B.Ed.",
-        duration: "2 Years",
-        eligibility: "Graduation (50%)",
-        seats: 100,
-        fee: "₹30,000/year",
-        highlights: ["Teaching Practice", "Modern Pedagogy", "School Partnerships"]
+        eligibility: "Class 12 with 50% in relevant science subjects",
+        seats: "Limited seats",
+        reservation: "SC-15%, ST-7.5%, OBC-27%",
+        highlights: ["Science specializations", "Research opportunities", "Modern labs"]
       },
       {
         name: "BCA",
         duration: "3 Years",
-        eligibility: "12th with Math (50%)",
-        seats: 60,
-        fee: "₹35,000/year",
-        highlights: ["Coding Skills", "Project Work", "Industry Internships"]
+        eligibility: "Class 12 with 50% (preferably PCM/Computer Science)",
+        seats: "Limited seats",
+        reservation: "SC-15%, ST-7.5%, OBC-27%",
+        highlights: ["Computer Applications", "Industry relevant", "Placement support"]
+      },
+      {
+        name: "Biotechnology",
+        duration: "3 Years",
+        eligibility: "Class 12 with 50% (preferably PCM/Computer Science)",
+        seats: "Limited seats",
+        reservation: "SC-15%, ST-7.5%, OBC-27%",
+        highlights: ["Modern biotechnology", "Research focus", "Industry connections"]
       }
     ]
   };
 
   const importantDates = [
-    { event: "Application Form Release", date: "March 1, 2024" },
-    { event: "Last Date to Apply", date: "May 31, 2024" },
-    { event: "Entrance Exam", date: "June 15, 2024" },
-    { event: "Merit List Declaration", date: "June 25, 2024" },
-    { event: "Counseling Begins", date: "July 1, 2024" },
-    { event: "Classes Begin", date: "July 20, 2024" }
+    { event: "Chancellor Portal Opens", date: "Check University Schedule" },
+    { event: "Application Submission", date: "Through Chancellor Portal" },
+    { event: "Merit List Publication", date: "Online at College Website" },
+    { event: "Document Verification", date: "As per College Schedule" },
+    { event: "Semester Admission", date: "For Continuing Students" },
+    { event: "Classes Begin", date: "Check Official Notices" }
   ];
 
   return (
@@ -207,23 +156,23 @@ const Admissions = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
             <Badge variant="secondary" className="mb-6 text-primary bg-white/10 border-white/20">
-              Admissions Open • Session 2024-25
+              Admissions through Chancellor Portal • NAAC Grade A
             </Badge>
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-accent bg-clip-text">
               Join Our Legacy
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-              Begin your journey of academic excellence and personal growth at 
-              St. Columba's College, Hazaribagh.
+              Apply through the centralized admission system for 
+              St. Columba's College, Hazaribagh - Since 1899.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.location.href = '/auth'}>
+              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.open('https://stcchzb.ac.in/', '_blank')}>
                 <FileText className="mr-2 h-5 w-5" />
-                Apply Online
+                Official Website
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('/prospectus.pdf', '_blank')}>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('https://stcchzb.ac.in/admission-policy/', '_blank')}>
                 <Download className="mr-2 h-5 w-5" />
-                Download Prospectus
+                Admission Policy
               </Button>
             </div>
           </div>
@@ -269,8 +218,18 @@ const Admissions = () => {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6 text-primary">Admission Process</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Follow these simple steps to secure your admission at St. Columba's College
+              St. Columba's College follows the centralized admission system of Jharkhand Universities
             </p>
+            <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg max-w-2xl mx-auto">
+              <div className="flex items-center gap-2 text-amber-800">
+                <AlertCircle className="h-5 w-5" />
+                <span className="font-semibold">Important Note:</span>
+              </div>
+              <p className="text-amber-700 mt-2">
+                The college does not allow direct admission through its website. 
+                All admissions are processed through the Chancellor Portal.
+              </p>
+            </div>
           </div>
           <div ref={processRef} className="max-w-6xl mx-auto space-y-8">
             {admissionProcess.map((step, index) => {
@@ -307,101 +266,149 @@ const Admissions = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-primary">Programs & Courses</h2>
-            <p className="text-xl text-muted-foreground">Explore our diverse academic offerings</p>
+            <h2 className="text-4xl font-bold mb-6 text-primary">Eligibility Criteria & Programs</h2>
+            <p className="text-xl text-muted-foreground">Academic programs offered at St. Columba's College</p>
           </div>
           
-          <Tabs defaultValue="undergraduate" className="w-full">
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-12">
-              <TabsTrigger value="undergraduate">UG Programs</TabsTrigger>
-              <TabsTrigger value="postgraduate">PG Programs</TabsTrigger>
-              <TabsTrigger value="professional">Professional</TabsTrigger>
-            </TabsList>
-
-            {Object.entries(programs).map(([key, programList]) => (
-              <TabsContent key={key} value={key}>
-                <div ref={programsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {programList.map((program, index) => (
-                    <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20">
-                      <CardHeader>
-                        <CardTitle className="text-xl text-primary">{program.name}</CardTitle>
-                        <div className="flex gap-2">
-                          <Badge variant="outline">{program.duration}</Badge>
-                          <Badge variant="secondary">{program.seats} Seats</Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="space-y-4">
-                        <div>
-                          <h4 className="font-semibold text-primary mb-1">Eligibility</h4>
-                          <p className="text-sm text-muted-foreground">{program.eligibility}</p>
-                        </div>
-                        
-                        <div>
-                          <h4 className="font-semibold text-primary mb-1">Annual Fee</h4>
-                          <p className="text-lg font-bold text-accent">{program.fee}</p>
-                        </div>
-                        
-                        <div>
-                          <h4 className="font-semibold text-primary mb-2">Program Highlights</h4>
-                          <div className="space-y-1">
-                            {program.highlights.map((highlight, idx) => (
-                              <div key={idx} className="flex items-center gap-2 text-sm">
-                                <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                                <span>{highlight}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <Button className="w-full group-hover:bg-primary-dark" onClick={() => window.location.href = '/auth'}>
-                          Apply Now
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+          <div className="max-w-6xl mx-auto space-y-8">
+            {/* Eligibility Info */}
+            <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-primary flex items-center gap-2">
+                  <Award className="h-6 w-6" />
+                  Reservation Policy
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-3 gap-6 text-center">
+                  <div className="p-4 bg-white/60 rounded-lg">
+                    <div className="text-2xl font-bold text-blue-600">15%</div>
+                    <div className="text-sm font-medium">SC Category</div>
+                  </div>
+                  <div className="p-4 bg-white/60 rounded-lg">
+                    <div className="text-2xl font-bold text-green-600">7.5%</div>
+                    <div className="text-sm font-medium">ST Category</div>
+                  </div>
+                  <div className="p-4 bg-white/60 rounded-lg">
+                    <div className="text-2xl font-bold text-purple-600">27%</div>
+                    <div className="text-sm font-medium">OBC (Non-Creamy Layer)</div>
+                  </div>
                 </div>
-              </TabsContent>
-            ))}
-          </Tabs>
+                <p className="text-center mt-4 text-sm text-muted-foreground">
+                  5% relaxation in eligibility marks for SC/ST candidates
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Programs */}
+            <div ref={programsRef} className="grid md:grid-cols-2 gap-8">
+              {programs.undergraduate.map((program, index) => (
+                <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/20">
+                  <CardHeader>
+                    <CardTitle className="text-xl text-primary">{program.name}</CardTitle>
+                    <div className="flex gap-2 flex-wrap">
+                      <Badge variant="outline">{program.duration}</Badge>
+                      <Badge variant="secondary">{program.seats}</Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold text-primary mb-1">Eligibility</h4>
+                      <p className="text-sm text-muted-foreground">{program.eligibility}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold text-primary mb-1">Reservation</h4>
+                      <p className="text-sm text-accent font-medium">{program.reservation}</p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold text-primary mb-2">Program Highlights</h4>
+                      <div className="space-y-1">
+                        {program.highlights.map((highlight, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-sm">
+                            <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                            <span>{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <Button className="w-full group-hover:bg-primary-dark" onClick={() => window.open('https://stcchzb.ac.in/notice_category/admission/', '_blank')}>
+                      View Admission Notices
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Contact & Support */}
+      {/* Important Links & Resources */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 text-primary">Need Help?</h2>
-            <p className="text-xl text-muted-foreground">Our admissions team is here to support you</p>
+            <h2 className="text-4xl font-bold mb-6 text-primary">Important Links & Resources</h2>
+            <p className="text-xl text-muted-foreground">Essential resources for prospective students</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <Card className="text-center hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-8">
-                <Phone className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-primary">Call Us</h3>
-                <p className="text-muted-foreground mb-4">Speak directly with our admissions counselors</p>
-                <p className="font-semibold">+91-6546-222-333</p>
-                <p className="text-sm text-muted-foreground">Mon-Sat: 9 AM - 5 PM</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => window.open('https://stcchzb.ac.in/', '_blank')}>
+              <CardContent className="p-6">
+                <BookOpen className="h-10 w-10 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-bold mb-2 text-primary">Official Website</h3>
+                <p className="text-sm text-muted-foreground">Complete college information</p>
               </CardContent>
             </Card>
             
-            <Card className="text-center hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-8">
-                <Mail className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-primary">Email Us</h3>
-                <p className="text-muted-foreground mb-4">Send us your queries and get detailed responses</p>
-                <p className="font-semibold">admissions@stcolumba.ac.in</p>
-                <p className="text-sm text-muted-foreground">Response within 24 hours</p>
+            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => window.open('https://stcchzb.ac.in/admission-policy/', '_blank')}>
+              <CardContent className="p-6">
+                <FileText className="h-10 w-10 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-bold mb-2 text-primary">Admission Policy</h3>
+                <p className="text-sm text-muted-foreground">Detailed admission guidelines</p>
               </CardContent>
             </Card>
             
-            <Card className="text-center hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-8">
-                <MapPin className="h-12 w-12 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2 text-primary">Visit Us</h3>
-                <p className="text-muted-foreground mb-4">Come for a campus tour and personal consultation</p>
-                <p className="font-semibold">St. Columba's College</p>
-                <p className="text-sm text-muted-foreground">Hazaribagh, Jharkhand</p>
+            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => window.open('https://stcchzb.ac.in/notice_category/admission/', '_blank')}>
+              <CardContent className="p-6">
+                <AlertCircle className="h-10 w-10 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-bold mb-2 text-primary">Admission Notices</h3>
+                <p className="text-sm text-muted-foreground">Latest merit lists & updates</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => window.open('#virtual-tour', '_blank')}>
+              <CardContent className="p-6">
+                <Award className="h-10 w-10 text-primary mx-auto mb-3" />
+                <h3 className="text-lg font-bold mb-2 text-primary">Virtual Tour</h3>
+                <p className="text-sm text-muted-foreground">Campus tour video</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* NAAC Accreditation */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+              <CardHeader>
+                <CardTitle className="text-2xl text-primary text-center flex items-center justify-center gap-2">
+                  <Award className="h-8 w-8" />
+                  NAAC Accreditation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-center space-y-4">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <div className="text-3xl font-bold text-green-600">Grade A</div>
+                    <div className="text-lg font-medium text-green-700">UGC Recognized</div>
+                    <div className="text-sm text-muted-foreground">Affiliated to Vinoba Bhave University</div>
+                  </div>
+                  <div>
+                    <div className="text-3xl font-bold text-blue-600">Grade B++</div>
+                    <div className="text-lg font-medium text-blue-700">State Accreditation</div>
+                    <div className="text-sm text-muted-foreground">CGPA 2.85</div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -411,19 +418,19 @@ const Admissions = () => {
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-primary to-primary-dark text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Begin Your Journey?</h2>
+          <h2 className="text-4xl font-bold mb-6">Ready to Join St. Columba's College?</h2>
           <p className="text-xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Don't miss the opportunity to be part of our prestigious institution. 
-            Apply today and take the first step towards your bright future.
+            Be part of our 125+ year legacy of academic excellence. 
+            Follow the centralized admission process through Chancellor Portal.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.location.href = '/auth'}>
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.open('https://stcchzb.ac.in/', '_blank')}>
               <GraduationCap className="mr-2 h-5 w-5" />
-              Start Application
+              Visit Official Website
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('/syllabus.pdf', '_blank')}>
-              <BookOpen className="mr-2 h-5 w-5" />
-              View Syllabus
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('https://stcchzb.ac.in/notice_category/admission/', '_blank')}>
+              <AlertCircle className="mr-2 h-5 w-5" />
+              Check Admission Notices
             </Button>
           </div>
         </div>
