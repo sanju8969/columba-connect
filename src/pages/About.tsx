@@ -278,9 +278,11 @@ const About = () => {
             Be part of a tradition that has shaped leaders, innovators, and change-makers for over a century.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              <GraduationCap className="mr-2 h-5 w-5" />
-              Apply for Admission
+            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90 group relative overflow-hidden" onClick={() => window.location.href = '/admissions'}>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <GraduationCap className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+              <span className="relative z-10">Admission Info</span>
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-college-gold rounded-full animate-pulse" />
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
               <Users className="mr-2 h-5 w-5" />

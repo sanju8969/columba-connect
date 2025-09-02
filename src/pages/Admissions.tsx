@@ -19,7 +19,8 @@ import {
   BookOpen,
   Mail,
   Phone,
-  MapPin
+  MapPin,
+  Play
 } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -166,13 +167,27 @@ const Admissions = () => {
               St. Columba's College, Hazaribagh - Since 1899.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90" onClick={() => window.open('https://stcchzb.ac.in/', '_blank')}>
-                <FileText className="mr-2 h-5 w-5" />
-                Official Website
+              <Button 
+                size="lg" 
+                variant="secondary" 
+                className="bg-white text-primary hover:bg-white/90 group relative overflow-hidden" 
+                onClick={() => window.open('https://www.youtube.com/watch?v=your-video-id', '_blank')}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-college-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                <span className="relative z-10">Virtual Campus Tour</span>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-college-crimson rounded-full animate-pulse" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" onClick={() => window.open('https://stcchzb.ac.in/admission-policy/', '_blank')}>
-                <Download className="mr-2 h-5 w-5" />
-                Admission Policy
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-primary group relative overflow-hidden" 
+                onClick={() => window.open('https://ranchiuniversity.ac.in/assets/iqac/State%20wise%20analysis%20Reports-Jharkhand.pdf', '_blank')}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <FileText className="mr-2 h-5 w-5 group-hover:rotate-12 transition-transform duration-300" />
+                <span className="relative z-10">NAAC Report</span>
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-college-gold rounded-full animate-ping" />
               </Button>
             </div>
           </div>
@@ -378,11 +393,13 @@ const Admissions = () => {
               </CardContent>
             </Card>
             
-            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => window.open('#virtual-tour', '_blank')}>
-              <CardContent className="p-6">
-                <Award className="h-10 w-10 text-primary mx-auto mb-3" />
-                <h3 className="text-lg font-bold mb-2 text-primary">Virtual Tour</h3>
-                <p className="text-sm text-muted-foreground">Campus tour video</p>
+            <Card className="text-center hover:shadow-lg transition-all duration-300 cursor-pointer group relative overflow-hidden" onClick={() => window.open('https://www.youtube.com/watch?v=your-video-id', '_blank')}>
+              <div className="absolute inset-0 bg-gradient-to-r from-college-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <CardContent className="p-6 relative z-10">
+                <Award className="h-10 w-10 text-primary mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
+                <h3 className="text-lg font-bold mb-2 text-primary">Virtual Campus Tour</h3>
+                <p className="text-sm text-muted-foreground">YouTube campus tour video</p>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-college-crimson rounded-full animate-pulse" />
               </CardContent>
             </Card>
           </div>

@@ -190,9 +190,11 @@ const DepartmentsSection = () => {
               to shape your future. Join thousands of successful alumni who started their journey here.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="secondary" size="lg" onClick={() => window.location.href = '/admission-form'}>
-                <GraduationCap size={20} />
-                Apply for Admission
+              <Button variant="secondary" size="lg" onClick={() => window.location.href = '/admissions'} className="group relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <GraduationCap size={20} className="group-hover:rotate-12 transition-transform duration-300" />
+                <span className="relative z-10">Admission Info</span>
+                <div className="absolute -top-1 -right-1 w-2 h-2 bg-accent rounded-full animate-ping" />
               </Button>
               <Button variant="outline" size="lg" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary" onClick={() => window.open('/prospectus.pdf', '_blank')}>
                 <BookOpen size={20} />

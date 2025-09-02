@@ -272,9 +272,16 @@ const HeroSection = () => {
                 <ArrowRight size={20} className="group-hover:translate-x-1 smooth-transition" />
               </Link>
             </Button>
-            <Button variant="outline" size="xl" className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm">
-              <Play size={20} />
-              Virtual Campus Tour
+            <Button 
+              variant="outline" 
+              size="xl" 
+              className="bg-white/10 border-white/30 text-white hover:bg-white hover:text-primary backdrop-blur-sm group relative overflow-hidden"
+              onClick={() => window.open('https://www.youtube.com/watch?v=your-video-id', '_blank')}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-college-gold/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Play size={20} className="group-hover:scale-110 transition-transform duration-300" />
+              <span className="relative z-10">Virtual Campus Tour</span>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-college-gold rounded-full animate-pulse" />
             </Button>
           </div>
 
