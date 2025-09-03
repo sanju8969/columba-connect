@@ -3,7 +3,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Users, GraduationCap, FileText, Calendar, ClipboardList } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, FileText, Calendar, ClipboardList, ArrowLeft } from 'lucide-react';
+import AssignmentManagement from '@/components/faculty/AssignmentManagement';
+import NoticeManagement from '@/components/admin/NoticeManagement';
 
 interface Profile {
   id: string;
@@ -27,6 +29,7 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
   });
 
   const [facultyInfo, setFacultyInfo] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<'dashboard' | 'assignments' | 'notices'>('dashboard');
 
   useEffect(() => {
     const fetchFacultyData = async () => {
@@ -95,6 +98,36 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
       color: 'text-purple-600'
     }
   ];
+
+  const handleManageAssignments = () => {
+    setCurrentView('assignments');
+  };
+
+  const handleManageNotices = () => {
+    setCurrentView('notices');
+  };
+
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard');
+  };
+
+  // Render management views
+  if (currentView !== 'dashboard') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4">
+          <Button variant="outline" onClick={handleBackToDashboard}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Dashboard
+          </Button>
+          <Badge variant="secondary">Faculty</Badge>
+        </div>
+        
+        {currentView === 'assignments' && <AssignmentManagement facultyId={profile.id} />}
+        {currentView === 'notices' && <NoticeManagement />}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -177,10 +210,10 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2"
-              onClick={() => alert('My Courses functionality coming soon!')}
+              onClick={handleManageAssignments}
             >
-              <BookOpen className="h-6 w-6" />
-              <span>My Courses</span>
+              <ClipboardList className="h-6 w-6" />
+              <span>Manage Assignments</span>
             </Button>
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
@@ -195,16 +228,16 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
               variant="outline"
               onClick={() => alert('Grade Students functionality coming soon!')}
             >
-              <ClipboardList className="h-6 w-6" />
+              <BookOpen className="h-6 w-6" />
               <span>Grade Students</span>
             </Button>
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Create Notice functionality coming soon!')}
+              onClick={handleManageNotices}
             >
               <FileText className="h-6 w-6" />
-              <span>Create Notice</span>
+              <span>Manage Notices</span>
             </Button>
           </div>
         </CardContent>

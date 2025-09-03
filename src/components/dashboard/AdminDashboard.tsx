@@ -9,6 +9,7 @@ import UserManagement from '@/components/admin/UserManagement';
 import DepartmentManagement from '@/components/admin/DepartmentManagement';
 import CourseManagement from '@/components/admin/CourseManagement';
 import NoticeManagement from '@/components/admin/NoticeManagement';
+import FacultyManagement from '@/components/admin/FacultyManagement';
 
 interface Profile {
   id: string;
@@ -26,7 +27,7 @@ interface AdminDashboardProps {
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
   const { stats, loading } = useDashboard();
   const { toast } = useToast();
-  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'departments' | 'courses' | 'notices'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'departments' | 'courses' | 'notices' | 'faculty'>('dashboard');
 
   const handleManageUsers = () => {
     setCurrentView('users');
@@ -42,6 +43,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
 
   const handlePublishNotice = () => {
     setCurrentView('notices');
+  };
+
+  const handleManageFaculty = () => {
+    setCurrentView('faculty');
   };
 
   const handleBackToDashboard = () => {
@@ -103,6 +108,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
         {currentView === 'departments' && <DepartmentManagement />}
         {currentView === 'courses' && <CourseManagement />}
         {currentView === 'notices' && <NoticeManagement />}
+        {currentView === 'faculty' && <FacultyManagement />}
       </div>
     );
   }
@@ -137,13 +143,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ profile }) => {
           <CardTitle>Quick Actions</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2"
               onClick={handleManageUsers}
             >
               <Users className="h-6 w-6" />
               <span>Manage Users</span>
+            </Button>
+            <Button 
+              className="h-auto p-4 flex flex-col items-center space-y-2" 
+              variant="outline"
+              onClick={handleManageFaculty}
+            >
+              <UserCheck className="h-6 w-6" />
+              <span>Manage Faculty</span>
             </Button>
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
