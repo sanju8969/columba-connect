@@ -83,6 +83,57 @@ export type Database = {
           },
         ]
       }
+      assignments: {
+        Row: {
+          course_id: string | null
+          created_at: string
+          description: string
+          due_date: string
+          faculty_id: string | null
+          id: string
+          max_marks: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string
+          description: string
+          due_date: string
+          faculty_id?: string | null
+          id?: string
+          max_marks?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string
+          description?: string
+          due_date?: string
+          faculty_id?: string | null
+          id?: string
+          max_marks?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "assignments_faculty_id_fkey"
+            columns: ["faculty_id"]
+            isOneToOne: false
+            referencedRelation: "faculty"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           code: string
