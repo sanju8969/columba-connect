@@ -181,13 +181,16 @@ const NoticeManagement = () => {
         title: "Notice deleted successfully"
       });
 
-      fetchNotices();
+      // Update local state immediately
+      setNotices(notices.filter(notice => notice.id !== noticeId));
     } catch (error: any) {
       toast({
         title: "Error deleting notice",
         description: error.message,
         variant: "destructive"
       });
+      // Refresh data on error
+      fetchNotices();
     }
   };
 

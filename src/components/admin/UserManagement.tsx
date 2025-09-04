@@ -137,13 +137,16 @@ const UserManagement = () => {
         title: "User deleted successfully"
       });
 
-      fetchUsers();
+      // Update local state immediately
+      setUsers(users.filter(user => user.id !== userId));
     } catch (error: any) {
       toast({
         title: "Error deleting user",
         description: error.message,
         variant: "destructive"
       });
+      // Refresh data on error
+      fetchUsers();
     }
   };
 

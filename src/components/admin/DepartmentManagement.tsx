@@ -135,13 +135,16 @@ const DepartmentManagement = () => {
         title: "Department deleted successfully"
       });
 
-      fetchDepartments();
+      // Update local state immediately
+      setDepartments(departments.filter(dept => dept.id !== departmentId));
     } catch (error: any) {
       toast({
         title: "Error deleting department",
         description: error.message,
         variant: "destructive"
       });
+      // Refresh data on error
+      fetchDepartments();
     }
   };
 

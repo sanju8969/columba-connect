@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -33,8 +34,28 @@ const Notices = () => {
   const eventsRef = useRef<HTMLDivElement>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
+  const [notices, setNotices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchNotices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('notices')
+        .select('*')
+        .eq('is_published', true)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setNotices(data || []);
+    } catch (error) {
+      console.error('Error fetching notices:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    fetchNotices();
     // Hero animation
     gsap.fromTo(heroRef.current, 
       { opacity: 0, y: 50 },
@@ -76,7 +97,7 @@ const Notices = () => {
     };
   }, []);
 
-  const notices = [
+  const sampleNotices = [
     {
       id: 1,
       title: "Important Update: Semester Examination Schedule",
@@ -87,52 +108,20 @@ const Notices = () => {
       description: "The semester examination schedule has been updated. Please check the revised dates and venues for your respective courses.",
       link: "/downloads/exam-schedule.pdf",
       department: "Academic Office"
-    },
-    {
-      id: 2,
-      title: "Library Book Return Reminder",
-      date: "2024-03-14",
-      time: "2:30 PM",
-      type: "general",
-      priority: "medium",
-      description: "Students are reminded to return all borrowed books before the semester break. Late returns will incur penalty charges.",
-      link: "#",
-      department: "Library"
-    },
-    {
-      id: 3,
-      title: "Scholarship Application Deadline Extended",
-      date: "2024-03-13",
-      time: "11:15 AM",
-      type: "scholarship",
-      priority: "high",
-      description: "The deadline for merit-based scholarship applications has been extended to March 31, 2024. Submit your applications online.",
-      link: "/scholarships",
-      department: "Student Affairs"
-    },
-    {
-      id: 4,
-      title: "New Research Lab Inauguration",
-      date: "2024-03-12",
-      time: "9:00 AM",
-      type: "announcement",
-      priority: "medium",
-      description: "The new Computer Science research lab will be inaugurated on March 20, 2024. All students and faculty are invited.",
-      link: "#",
-      department: "Computer Science"
-    },
-    {
-      id: 5,
-      title: "Sports Complex Maintenance Notice",
-      date: "2024-03-11",
-      time: "4:00 PM",
-      type: "maintenance",
-      priority: "low",
-      description: "The sports complex will be closed for maintenance from March 18-20, 2024. Alternative arrangements have been made.",
-      link: "#",
-      department: "Sports Committee"
     }
   ];
+
+  const transformedNotices = notices.map(notice => ({
+    id: notice.id,
+    title: notice.title,
+    date: new Date(notice.created_at).toLocaleDateString(),
+    time: new Date(notice.created_at).toLocaleTimeString(),
+    type: notice.type,
+    priority: notice.priority === 3 ? 'high' : notice.priority === 2 ? 'medium' : 'low',
+    description: notice.content,
+    link: "#",
+    department: notice.target_audience || "General"
+  }));
 
   const events = [
     {
@@ -216,7 +205,7 @@ const Notices = () => {
     }
   };
 
-  const filteredNotices = notices.filter(notice => {
+  const filteredNotices = transformedNotices.filter(notice => {
     const matchesSearch = notice.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          notice.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterType === "all" || notice.type === filterType;
@@ -242,7 +231,7 @@ const Notices = () => {
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
               <div className="text-center">
-                <div className="text-3xl font-bold text-accent">{notices.length}</div>
+                <div className="text-3xl font-bold text-accent">{transformedNotices.length}</div>
                 <div className="text-white/80">Active Notices</div>
               </div>
               <div className="text-center">
