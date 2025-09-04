@@ -22,6 +22,8 @@ const Navbar = () => {
     { name: 'About', path: '/about' },
     { name: 'Departments', path: '/departments' },
     { name: 'Admissions', path: '/admissions' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Alumni', path: '/alumni' },
     { name: 'Academics', path: '/academics' },
     { name: 'Notices', path: '/notices' },
     { name: 'Contact', path: '/contact' },
@@ -106,7 +108,7 @@ const Navbar = () => {
                 </Link>
               </Button>
               <Button variant="hero" size="sm" asChild>
-                <Link to="/admissions">Admissions</Link>
+                <Link to="/gallery">Gallery</Link>
               </Button>
             </div>
 
@@ -149,7 +151,7 @@ const Navbar = () => {
                     </Link>
                   </Button>
                   <Button variant="hero" size="sm" asChild>
-                    <Link to="/admissions">Admissions</Link>
+                    <Link to="/gallery">Gallery</Link>
                   </Button>
                 </div>
               </div>
