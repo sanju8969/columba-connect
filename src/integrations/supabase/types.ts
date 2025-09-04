@@ -83,6 +83,45 @@ export type Database = {
           },
         ]
       }
+      alumni: {
+        Row: {
+          bio: string | null
+          company: string | null
+          course: string
+          created_at: string
+          current_position: string | null
+          email: string | null
+          graduation_year: number
+          id: string
+          name: string
+          phone: string | null
+        }
+        Insert: {
+          bio?: string | null
+          company?: string | null
+          course: string
+          created_at?: string
+          current_position?: string | null
+          email?: string | null
+          graduation_year: number
+          id?: string
+          name: string
+          phone?: string | null
+        }
+        Update: {
+          bio?: string | null
+          company?: string | null
+          course?: string
+          created_at?: string
+          current_position?: string | null
+          email?: string | null
+          graduation_year?: number
+          id?: string
+          name?: string
+          phone?: string | null
+        }
+        Relationships: []
+      }
       assignments: {
         Row: {
           course_id: string | null
@@ -309,6 +348,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      gallery: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string
+          title?: string
+        }
+        Relationships: []
       }
       grades: {
         Row: {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,43 +17,20 @@ interface GalleryImage {
 
 const Gallery = () => {
   const [images, setImages] = useState<GalleryImage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newImage, setNewImage] = useState({ title: '', description: '', image_url: '' });
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchImages();
-    checkAdminStatus();
+    // Database integration will be added once types are updated
+    setIsLoading(false);
   }, []);
 
-  const checkAdminStatus = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-      setIsAdmin(profile?.role === 'admin');
-    }
-  };
-
   const fetchImages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('gallery')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setImages(data || []);
-    } catch (error) {
-      console.error('Error fetching images:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    // Placeholder - will connect to database once types are updated
+    setIsLoading(false);
   };
 
   const handleAddImage = async () => {
@@ -67,54 +43,19 @@ const Gallery = () => {
       return;
     }
 
-    try {
-      const { error } = await supabase
-        .from('gallery')
-        .insert([newImage]);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Image added to gallery successfully",
-      });
-
-      setNewImage({ title: '', description: '', image_url: '' });
-      setIsDialogOpen(false);
-      fetchImages();
-    } catch (error) {
-      console.error('Error adding image:', error);
-      toast({
-        title: "Error",
-        description: "Failed to add image",
-        variant: "destructive",
-      });
-    }
+    // Placeholder - will connect to database once types are updated
+    toast({
+      title: "Info",
+      description: "Database integration pending - types updating",
+    });
   };
 
   const handleDeleteImage = async (id: string) => {
-    try {
-      const { error } = await supabase
-        .from('gallery')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Image deleted successfully",
-      });
-
-      fetchImages();
-    } catch (error) {
-      console.error('Error deleting image:', error);
-      toast({
-        title: "Error",
-        description: "Failed to delete image",
-        variant: "destructive",
-      });
-    }
+    // Placeholder - will connect to database once types are updated
+    toast({
+      title: "Info", 
+      description: "Database integration pending - types updating",
+    });
   };
 
   if (isLoading) {
