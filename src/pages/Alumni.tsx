@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
-import { Plus, Mail, Phone, Briefcase, Calendar, X } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Plus, Edit, Trash2, Search, Users, Mail, Phone, Building } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
+import { alumniSchema, AlumniFormData } from '@/lib/validations';
+import { EnhancedForm } from '@/components/forms/EnhancedForm';
+import { useOptimisticUpdates } from '@/hooks/useOptimisticUpdates';
 
 interface Alumni {
   id: string;
@@ -21,240 +27,312 @@ interface Alumni {
 }
 
 const Alumni = () => {
-  const [alumni, setAlumni] = useState<Alumni[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [newAlumni, setNewAlumni] = useState({
-    name: '',
-    graduation_year: new Date().getFullYear(),
-    course: '',
-    current_position: '',
-    company: '',
-    email: '',
-    phone: '',
-    bio: ''
-  });
-  const { toast } = useToast();
+  const [editingAlumni, setEditingAlumni] = useState<Alumni | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Database integration will be added once types are updated
-    setIsLoading(false);
-  }, []);
+  const form = useForm<AlumniFormData>({
+    resolver: zodResolver(alumniSchema),
+    defaultValues: {
+      name: '',
+      graduation_year: new Date().getFullYear(),
+      course: '',
+      current_position: '',
+      company: '',
+      email: '',
+      phone: '',
+      bio: '',
+    },
+  });
+
+  const {
+    data: alumni,
+    loading,
+    optimisticCreate,
+    optimisticUpdate,
+    optimisticDelete,
+    setData,
+    setLoading,
+  } = useOptimisticUpdates<Alumni>([], {
+    create: async (data) => {
+      const { error } = await supabase.from('alumni').insert([data]);
+      if (error) throw error;
+      await fetchAlumni();
+    },
+    update: async (id, updates) => {
+      const { error } = await supabase.from('alumni').update(updates).eq('id', id);
+      if (error) throw error;
+      await fetchAlumni();
+    },
+    delete: async (id) => {
+      const { error } = await supabase.from('alumni').delete().eq('id', id);
+      if (error) throw error;
+    },
+  });
 
   const fetchAlumni = async () => {
-    // Placeholder - will connect to database once types are updated
-    setIsLoading(false);
-  };
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('alumni')
+        .select('*')
+        .order('graduation_year', { ascending: false });
 
-  const handleAddAlumni = async () => {
-    if (!newAlumni.name || !newAlumni.course) {
+      if (error) throw error;
+      setData(data || []);
+    } catch (error) {
+      console.error('Error fetching alumni:', error);
       toast({
         title: "Error",
-        description: "Please fill in all required fields",
+        description: "Failed to fetch alumni data",
         variant: "destructive",
       });
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    // Placeholder - will connect to database once types are updated
-    toast({
-      title: "Info",
-      description: "Database integration pending - types updating",
-    });
   };
 
-  const handleDeleteAlumni = async (id: string) => {
-    // Placeholder - will connect to database once types are updated
-    toast({
-      title: "Info",
-      description: "Database integration pending - types updating", 
-    });
+  const fetchUserRole = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single();
+
+      setUserRole(profile?.role || null);
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetchAlumni();
+    fetchUserRole();
+  }, []);
+
+  const handleSubmit = async (data: AlumniFormData) => {
+    try {
+      if (editingAlumni) {
+        await optimisticUpdate(editingAlumni.id, data);
+      } else {
+        await optimisticCreate(data);
+      }
+      
+      setIsDialogOpen(false);
+      form.reset();
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  const formFields = [
+    {
+      name: 'name',
+      label: 'Name',
+      type: 'text' as const,
+      placeholder: 'Enter full name',
+      required: true,
+    },
+    {
+      name: 'graduation_year',
+      label: 'Graduation Year',
+      type: 'number' as const,
+      placeholder: 'Enter graduation year',
+      required: true,
+    },
+    {
+      name: 'course',
+      label: 'Course',
+      type: 'text' as const,
+      placeholder: 'Enter course/degree',
+      required: true,
+      className: 'md:col-span-2',
+    },
+    {
+      name: 'current_position',
+      label: 'Current Position',
+      type: 'text' as const,
+      placeholder: 'Enter current position',
+    },
+    {
+      name: 'company',
+      label: 'Company',
+      type: 'text' as const,
+      placeholder: 'Enter company name',
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      type: 'email' as const,
+      placeholder: 'Enter email address',
+    },
+    {
+      name: 'phone',
+      label: 'Phone',
+      type: 'text' as const,
+      placeholder: 'Enter phone number',
+    },
+    {
+      name: 'bio',
+      label: 'Bio',
+      type: 'textarea' as const,
+      placeholder: 'Enter brief bio',
+      className: 'md:col-span-2',
+    },
+  ];
+
+  const isAdmin = userRole === 'admin';
+  const filteredAlumni = alumni.filter(person =>
+    person.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    person.course.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (person.company && person.company.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-subtle py-20">
-      <div className="container-width">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background">
+      <div className="container-width section-padding">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-display font-bold mb-4">Our Alumni</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Connect with our distinguished alumni network and explore their achievements
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient-academic">
+            Alumni Directory
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Connect with our distinguished alumni network
           </p>
         </div>
 
         {isAdmin && (
-          <div className="mb-8 flex justify-end">
-            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="gap-2">
-                  <Plus size={16} />
-                  Add Alumni
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Add New Alumni</DialogTitle>
-                </DialogHeader>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium">Name *</label>
-                    <Input
-                      value={newAlumni.name}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, name: e.target.value })}
-                      placeholder="Enter name"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Graduation Year</label>
-                    <Input
-                      type="number"
-                      value={newAlumni.graduation_year}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, graduation_year: parseInt(e.target.value) })}
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Course *</label>
-                    <Input
-                      value={newAlumni.course}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, course: e.target.value })}
-                      placeholder="Enter course"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Current Position</label>
-                    <Input
-                      value={newAlumni.current_position}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, current_position: e.target.value })}
-                      placeholder="Enter position"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Company</label>
-                    <Input
-                      value={newAlumni.company}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, company: e.target.value })}
-                      placeholder="Enter company"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Email</label>
-                    <Input
-                      type="email"
-                      value={newAlumni.email}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, email: e.target.value })}
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Phone</label>
-                    <Input
-                      value={newAlumni.phone}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, phone: e.target.value })}
-                      placeholder="Enter phone"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="text-sm font-medium">Bio</label>
-                    <Textarea
-                      value={newAlumni.bio}
-                      onChange={(e) => setNewAlumni({ ...newAlumni, bio: e.target.value })}
-                      placeholder="Enter bio"
-                      rows={3}
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <Button onClick={handleAddAlumni} className="w-full">
+          <Card className="mb-8">
+            <CardHeader>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5" />
+                  Alumni Management
+                </CardTitle>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button className="flex items-center gap-2">
+                      <Plus className="h-4 w-4" />
                       Add Alumni
                     </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                      <DialogTitle>
+                        {editingAlumni ? 'Edit Alumni' : 'Add New Alumni'}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <EnhancedForm
+                      form={form}
+                      fields={formFields}
+                      onSubmit={handleSubmit}
+                      submitText={editingAlumni ? 'Update Alumni' : 'Add Alumni'}
+                      isLoading={loading}
+                    />
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Input
+                placeholder="Search alumni..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="max-w-md"
+              />
+            </CardContent>
+          </Card>
         )}
 
-        {alumni.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No alumni profiles available yet.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {alumni.map((person) => (
-              <Card key={person.id} className="hover-lift">
-                <CardHeader className="relative">
-                  <CardTitle className="flex items-center justify-between">
-                    <span>{person.name}</span>
-                    {isAdmin && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredAlumni.map((person) => (
+            <Card key={person.id} className="hover-lift">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                      <Users className="h-8 w-8 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-lg">{person.name}</h3>
+                      <Badge variant="secondary">Class of {person.graduation_year}</Badge>
+                    </div>
+                  </div>
+                  {isAdmin && (
+                    <div className="flex gap-2">
                       <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDeleteAlumni(person.id)}
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditingAlumni(person);
+                          form.reset(person);
+                          setIsDialogOpen(true);
+                        }}
                       >
-                        <X size={16} />
+                        <Edit className="h-3 w-3" />
                       </Button>
-                    )}
-                  </CardTitle>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar size={14} />
-                    <span>Class of {person.graduation_year}</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div>
-                    <p className="font-medium text-primary">{person.course}</p>
-                  </div>
-                  
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => optimisticDelete(person.id)}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <p className="font-medium text-primary">{person.course}</p>
+
                   {person.current_position && (
-                    <div className="flex items-center gap-2">
-                      <Briefcase size={14} className="text-muted-foreground" />
-                      <span className="text-sm">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Building className="h-4 w-4 text-muted-foreground" />
+                      <span>
                         {person.current_position}
                         {person.company && ` at ${person.company}`}
                       </span>
                     </div>
                   )}
 
-                  {person.bio && (
-                    <p className="text-sm text-muted-foreground">{person.bio}</p>
+                  {person.email && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <a 
+                        href={`mailto:${person.email}`}
+                        className="text-primary hover:underline"
+                      >
+                        {person.email}
+                      </a>
+                    </div>
                   )}
 
-                  <div className="pt-3 border-t space-y-2">
-                    {person.email && (
-                      <div className="flex items-center gap-2">
-                        <Mail size={14} className="text-muted-foreground" />
-                        <a 
-                          href={`mailto:${person.email}`}
-                          className="text-sm hover:text-primary transition-colors"
-                        >
-                          {person.email}
-                        </a>
-                      </div>
-                    )}
-                    {person.phone && (
-                      <div className="flex items-center gap-2">
-                        <Phone size={14} className="text-muted-foreground" />
-                        <a 
-                          href={`tel:${person.phone}`}
-                          className="text-sm hover:text-primary transition-colors"
-                        >
-                          {person.phone}
-                        </a>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
+                  {person.phone && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Phone className="h-4 w-4 text-muted-foreground" />
+                      <a 
+                        href={`tel:${person.phone}`}
+                        className="text-primary hover:underline"
+                      >
+                        {person.phone}
+                      </a>
+                    </div>
+                  )}
+
+                  {person.bio && (
+                    <p className="text-sm text-muted-foreground mt-3">
+                      {person.bio}
+                    </p>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

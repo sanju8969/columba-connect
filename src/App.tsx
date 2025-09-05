@@ -15,6 +15,8 @@ import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import AdmissionFormPage from "./pages/AdmissionForm";
+import Gallery from "./pages/Gallery";
+import Alumni from "./pages/Alumni";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
               <Route path="/auth" element={<Auth />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admission-form" element={<AdmissionFormPage />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/alumni" element={<Alumni />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
