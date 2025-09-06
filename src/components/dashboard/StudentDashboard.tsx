@@ -27,6 +27,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
   });
 
   const [studentInfo, setStudentInfo] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<'dashboard' | 'profile' | 'courses'>('dashboard');
 
   useEffect(() => {
     const fetchStudentData = async () => {

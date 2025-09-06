@@ -129,16 +129,22 @@ const UserManagement = () => {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
     try {
-      const { error } = await supabase.auth.admin.deleteUser(userId);
+      const { data, error } = await supabase.functions.invoke('delete-user', {
+        body: { userId }
+      });
 
       if (error) throw error;
 
-      toast({
-        title: "User deleted successfully"
-      });
+      if (data?.success) {
+        toast({
+          title: "User deleted successfully"
+        });
 
-      // Update local state immediately
-      setUsers(users.filter(user => user.id !== userId));
+        // Update local state immediately
+        setUsers(users.filter(user => user.id !== userId));
+      } else {
+        throw new Error(data?.error || 'Failed to delete user');
+      }
     } catch (error: any) {
       toast({
         title: "Error deleting user",

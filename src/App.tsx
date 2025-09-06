@@ -18,6 +18,7 @@ import AdmissionFormPage from "./pages/AdmissionForm";
 import Gallery from "./pages/Gallery";
 import Alumni from "./pages/Alumni";
 import NotFound from "./pages/NotFound";
+import Chatbot from "./components/chat/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
             </Routes>
           </main>
           <Footer />
+          <Chatbot />
         </div>
       </BrowserRouter>
     </TooltipProvider>

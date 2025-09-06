@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, GraduationCap, Phone, Mail } from 'lucide-react';
+import { Menu, X, GraduationCap, Phone, Mail, LogOut, LayoutDashboard } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 import collegeLogo from '@/assets/college-logo.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [user, setUser] = useState(null);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,12 +22,48 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Check current auth state
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+    };
+    
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      navigate('/');
+      toast({
+        title: "Signed out successfully"
+      });
+    } catch (error: any) {
+      toast({
+        title: "Error signing out",
+        description: error.message,
+        variant: "destructive"
+      });
+    }
+  };
+
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Departments', path: '/departments' },
     { name: 'Admissions', path: '/admissions' },
-    { name: 'Gallery', path: '/gallery' },
+    // Only show Gallery if user is not logged in
+    ...(user ? [] : [{ name: 'Gallery', path: '/gallery' }]),
     { name: 'Alumni', path: '/alumni' },
     { name: 'Academics', path: '/academics' },
     { name: 'Notices', path: '/notices' },
@@ -101,15 +142,32 @@ const Navbar = () => {
 
             {/* Action Buttons */}
             <div className="hidden lg:flex items-center gap-4">
-              <Button variant="outline" size="sm" asChild>
-                <Link to="/auth">
-                  <GraduationCap size={16} />
-                  Login
-                </Link>
-              </Button>
-              <Button variant="hero" size="sm" asChild>
-                <Link to="/gallery">Gallery</Link>
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/dashboard">
+                      <LayoutDashboard size={16} />
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleSignOut}>
+                    <LogOut size={16} />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/auth">
+                      <GraduationCap size={16} />
+                      Login
+                    </Link>
+                  </Button>
+                  <Button variant="hero" size="sm" asChild>
+                    <Link to="/gallery">Gallery</Link>
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -144,15 +202,32 @@ const Navbar = () => {
                   </Link>
                 ))}
                 <div className="flex flex-col gap-3 pt-4 border-t">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link to="/auth">
-                      <GraduationCap size={16} />
-                      Login
-                    </Link>
-                  </Button>
-                  <Button variant="hero" size="sm" asChild>
-                    <Link to="/gallery">Gallery</Link>
-                  </Button>
+                  {user ? (
+                    <>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                          <LayoutDashboard size={16} />
+                          Dashboard
+                        </Link>
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => { handleSignOut(); setIsOpen(false); }}>
+                        <LogOut size={16} />
+                        Sign Out
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="outline" size="sm" asChild>
+                        <Link to="/auth" onClick={() => setIsOpen(false)}>
+                          <GraduationCap size={16} />
+                          Login
+                        </Link>
+                      </Button>
+                      <Button variant="hero" size="sm" asChild>
+                        <Link to="/gallery" onClick={() => setIsOpen(false)}>Gallery</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

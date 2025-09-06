@@ -573,6 +573,10 @@ export type Database = {
         Args: Record<PropertyKey, never>
         Returns: string
       }
+      request_user_deletion: {
+        Args: { user_id_to_delete: string }
+        Returns: Json
+      }
     }
     Enums: {
       user_role: "admin" | "faculty" | "student"

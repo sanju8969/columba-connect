@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, Users, GraduationCap, FileText, Calendar, ClipboardList, ArrowLeft } from 'lucide-react';
 import AssignmentManagement from '@/components/faculty/AssignmentManagement';
+import AssignmentCRUD from '@/components/faculty/AssignmentCRUD';
 import NoticeManagement from '@/components/admin/NoticeManagement';
 
 interface Profile {
@@ -123,7 +124,7 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
           <Badge variant="secondary">Faculty</Badge>
         </div>
         
-        {currentView === 'assignments' && <AssignmentManagement facultyId={profile.id} />}
+        {currentView === 'assignments' && <AssignmentCRUD facultyId={profile.id} />}
         {currentView === 'notices' && <NoticeManagement />}
       </div>
     );
