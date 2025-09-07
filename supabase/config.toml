@@ -16,7 +16,7 @@ port = 54323
 enabled = true
 
 [functions.delete-user]
-verify_jwt = true
+verify_jwt = false
 
 [functions.chat]
 verify_jwt = false
