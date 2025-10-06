@@ -3,7 +3,11 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, GraduationCap, FileText, Calendar, TrendingUp, User } from 'lucide-react';
+import { BookOpen, GraduationCap, FileText, Calendar, TrendingUp, User, UserCircle, ArrowLeft } from 'lucide-react';
+import StudentCourses from '@/components/student/StudentCourses';
+import StudentGrades from '@/components/student/StudentGrades';
+import StudentAssignments from '@/components/student/StudentAssignments';
+import StudentProfile from '@/components/student/StudentProfile';
 
 interface Profile {
   id: string;
@@ -27,7 +31,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
   });
 
   const [studentInfo, setStudentInfo] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'dashboard' | 'profile' | 'courses'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'courses' | 'grades' | 'assignments' | 'profile'>('dashboard');
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -90,6 +94,32 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
       color: 'text-orange-600'
     }
   ];
+
+  const renderView = () => {
+    switch (currentView) {
+      case 'courses':
+        return <StudentCourses studentId={profile.id} />;
+      case 'grades':
+        return <StudentGrades studentId={profile.id} />;
+      case 'assignments':
+        return <StudentAssignments studentId={profile.id} />;
+      case 'profile':
+        return <StudentProfile studentId={profile.id} />;
+      default:
+        return null;
+    }
+  };
+
+  if (currentView !== 'dashboard') {
+    return (
+      <div className="space-y-6">
+        <Button onClick={() => setCurrentView('dashboard')} variant="outline">
+          ← Back to Dashboard
+        </Button>
+        {renderView()}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -172,7 +202,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2"
-              onClick={() => alert('My Courses functionality coming soon!')}
+              onClick={() => setCurrentView('courses')}
             >
               <BookOpen className="h-6 w-6" />
               <span>My Courses</span>
@@ -180,7 +210,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('View Grades functionality coming soon!')}
+              onClick={() => setCurrentView('grades')}
             >
               <TrendingUp className="h-6 w-6" />
               <span>View Grades</span>
@@ -188,7 +218,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Assignments functionality coming soon!')}
+              onClick={() => setCurrentView('assignments')}
             >
               <FileText className="h-6 w-6" />
               <span>Assignments</span>
@@ -196,7 +226,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Update Profile functionality coming soon!')}
+              onClick={() => setCurrentView('profile')}
             >
               <User className="h-6 w-6" />
               <span>Update Profile</span>

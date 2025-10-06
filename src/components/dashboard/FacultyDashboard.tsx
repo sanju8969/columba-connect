@@ -3,10 +3,12 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { BookOpen, Users, GraduationCap, FileText, Calendar, ClipboardList, ArrowLeft } from 'lucide-react';
+import { BookOpen, Users, GraduationCap, FileText, Calendar, ClipboardList, ArrowLeft, Bell } from 'lucide-react';
 import AssignmentManagement from '@/components/faculty/AssignmentManagement';
 import AssignmentCRUD from '@/components/faculty/AssignmentCRUD';
 import NoticeManagement from '@/components/admin/NoticeManagement';
+import StudentList from '@/components/faculty/StudentList';
+import GradeManagement from '@/components/faculty/GradeManagement';
 
 interface Profile {
   id: string;
@@ -30,7 +32,7 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
   });
 
   const [facultyInfo, setFacultyInfo] = useState<any>(null);
-  const [currentView, setCurrentView] = useState<'dashboard' | 'assignments' | 'notices'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'assignments' | 'notices' | 'students' | 'grades'>('dashboard');
 
   useEffect(() => {
     const fetchFacultyData = async () => {
@@ -100,17 +102,11 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
     }
   ];
 
-  const handleManageAssignments = () => {
-    setCurrentView('assignments');
-  };
-
-  const handleManageNotices = () => {
-    setCurrentView('notices');
-  };
-
-  const handleBackToDashboard = () => {
-    setCurrentView('dashboard');
-  };
+  const handleManageAssignments = () => setCurrentView('assignments');
+  const handleManageNotices = () => setCurrentView('notices');
+  const handleManageStudents = () => setCurrentView('students');
+  const handleManageGrades = () => setCurrentView('grades');
+  const handleBackToDashboard = () => setCurrentView('dashboard');
 
   // Render management views
   if (currentView !== 'dashboard') {
@@ -126,6 +122,8 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
         
         {currentView === 'assignments' && <AssignmentCRUD facultyId={profile.id} />}
         {currentView === 'notices' && <NoticeManagement />}
+        {currentView === 'students' && <StudentList facultyId={profile.id} />}
+        {currentView === 'grades' && <GradeManagement facultyId={profile.id} />}
       </div>
     );
   }
@@ -219,17 +217,17 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ profile }) => {
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Student List functionality coming soon!')}
+              onClick={handleManageStudents}
             >
-              <GraduationCap className="h-6 w-6" />
+              <Users className="h-6 w-6" />
               <span>Student List</span>
             </Button>
             <Button 
               className="h-auto p-4 flex flex-col items-center space-y-2" 
               variant="outline"
-              onClick={() => alert('Grade Students functionality coming soon!')}
+              onClick={handleManageGrades}
             >
-              <BookOpen className="h-6 w-6" />
+              <GraduationCap className="h-6 w-6" />
               <span>Grade Students</span>
             </Button>
             <Button 
